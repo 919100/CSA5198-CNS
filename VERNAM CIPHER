@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to perform Vernam encryption
+void vernam_encrypt(char *plaintext, char *key) {
+    int length = strlen(plaintext);
+    for (int i = 0; i < length; i++) {
+        plaintext[i] = plaintext[i] ^ key[i]; // XOR operation between plaintext and key
+    }
+}
+
+// Function to perform Vernam decryption (since Vernam is symmetric, decryption is the same as encryption)
+void vernam_decrypt(char *ciphertext, char *key) {
+    vernam_encrypt(ciphertext, key); // Decryption is the same as encryption in Vernam cipher
+}
+
+int main() {
+    char plaintext[100];
+    char key[100];
+    char ciphertext[100];
+
+    printf("Enter plaintext: ");
+    fgets(plaintext, sizeof(plaintext), stdin);
+    printf("Enter key (same length as plaintext): ");
+    fgets(key, sizeof(key), stdin);
+
+    // Remove newline characters
+    plaintext[strcspn(plaintext, "\n")] = '\0';
+    key[strcspn(key, "\n")] = '\0';
+
+    // Encrypt the plaintext
+    strcpy(ciphertext, plaintext); // Copy plaintext to ciphertext buffer
+    vernam_encrypt(ciphertext, key);
+
+    printf("\nEncrypted text: %s\n", ciphertext);
+
+    // Decrypt the ciphertext
+    vernam_decrypt(ciphertext, key);
+    printf("Decrypted text: %s\n", ciphertext);
+
+    return 0;
+}
